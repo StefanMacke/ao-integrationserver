@@ -1,0 +1,14 @@
+apply plugin: 'maven'
+
+logger.info('Maven plugin activated')
+
+repositories {
+    maven {
+        name = "Maven Repository"
+        url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL()
+    }
+    ivy {
+        name = "Ivy Repository"
+        url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL()
+    }
+}

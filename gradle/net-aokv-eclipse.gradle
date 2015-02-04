@@ -1,0 +1,27 @@
+/*
+    Generates files that are used by Eclipse IDE, thus making it possible to import the project into Eclipse.
+ */
+apply plugin: 'eclipse'
+
+logger.info('Eclipse plugin activated')
+
+eclipseProject {
+
+    def separator = System.getProperty('file.separator')
+    def eclipseSettingsFile = getProjectDir().toString() + separator + ".settings" + separator + "org.eclipse.core.resources.prefs"
+
+    logger.info("eclipseSettingsFile: ${eclipseSettingsFile}")
+
+    def path = new File(eclipseSettingsFile)
+
+    def settingPath = new File(path.getParent())
+    if (!settingPath.exists()) {
+        logger.info("settingPfad: ${settingPath} will be created")
+        settingPath.mkdirs()
+    }
+
+    path.withWriter {
+        it.println "eclipse.preferences.version=1"
+        it.println "encoding=" + project.encoding
+    }
+}

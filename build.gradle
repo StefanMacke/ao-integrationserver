@@ -1,0 +1,45 @@
+description = "Java interface for webMethods Integration Server services"
+
+logger.info("Gradle project ${project.name}")
+logger.info("Encoding for project <${project.group}.${project.name}> is ${project.encoding}")
+logger.info("Artifacts repository: $project.artifactsURL$project.artifactsRepoKey")
+logger.info(description)
+
+logger.debug("Build with project.gradleApplyFromPath: ${project.gradleApplyFromPath}")
+logger.debug("Configuration project.pluginConfigPath: ${project.pluginConfigPath}")
+
+configurations.create('${project.name}')
+
+buildscript {
+    repositories {
+        maven { url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL() }
+        ivy { url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL() }
+    }
+    apply from: "${project.gradleApplyFromPath}/net-aokv-classpath.gradle", to: buildscript
+}
+logger.debug('buildscript settings activated')
+
+[
+	 "maven",
+	 "project-report",
+	 "java",
+	 "eclipse",
+	 "junit4",
+	 "mockito",
+	 "checkstyle",
+	 "pmd",
+	 "findbugs",
+	 "jacoco"
+].each {
+	apply from: "${project.gradleApplyFromPath}/net-aokv-${it}.gradle"
+}
+
+repositories.each { logger.info("Repository $it.name") }
+
+dependencies {
+	compile "net.aokv.idataconverter:ao-idata-converter:2.0.0",
+		"com.sun.mail:javax.mail:1.5.0",
+		'com.wm:is-client:9.5', // must be added to local repository
+		'com.wm:is-server:9.5', // must be added to local repository
+		'com.entrust.toolkit:enttoolkit:8.0.23' // must be added to local repository
+}

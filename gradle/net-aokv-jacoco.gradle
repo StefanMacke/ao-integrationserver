@@ -1,0 +1,30 @@
+/*
+    JaCoCo Einstellungen
+
+    BUILDSCRIPT-CLASSPATH-DEPENDENCY:  'com.github.abirmingham:gradle-jacoco-plugin:1.+'
+ */
+apply plugin: 'jacoco'
+
+logger.info('JaCoCo 1.+ Plugin aktiviert')
+
+jacoco {
+    reportsDir = file("${project.reporting.baseDir.absolutePath}/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+build.dependsOn jacocoTestReport

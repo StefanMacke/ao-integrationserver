@@ -1,0 +1,5 @@
+dependencies {
+    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:2.+'
+    classpath 'checkstyle:checkstyle:5.+'
+    classpath 'com.github.abirmingham:gradle-jacoco-plugin:1.+'
+}

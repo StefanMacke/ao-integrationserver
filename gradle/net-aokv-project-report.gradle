@@ -1,0 +1,4 @@
+/*
+    Generates reports containing useful information about your Gradle build.
+ */
+apply plugin: 'project-report'
