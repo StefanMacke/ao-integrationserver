@@ -56,5 +56,5 @@ I have already included them in the project's dependencies (`build.gradle`) if y
 
 Take a look at these two classes to see `ao-integrationserver` in action (for service `pub.string.length` in `WmPublic`):
 
-* [Length.java](https://github.com/StefanMacke/ao-idata-converter/blob/master/src/main/java/net/aokv/integrationserver/wmpublic/pub/string/Length.java)
-* [LengthShould.java](https://github.com/StefanMacke/ao-idata-converter/blob/master/src/test/java/net/aokv/integrationserver/wmpublic/pub/string/LengthShould.java)
+* [Length.java](https://github.com/StefanMacke/ao-integrationserver/blob/master/src/main/java/net/aokv/integrationserver/wmpublic/pub/string/Length.java)
+* [LengthShould.java](https://github.com/StefanMacke/ao-integrationserver/blob/master/src/test/java/net/aokv/integrationserver/wmpublic/pub/string/LengthShould.java)
