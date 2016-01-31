@@ -1,16 +1,12 @@
 package net.aokv.integrationserver;
 
-import java.lang.reflect.ParameterizedType;
-
-import net.aokv.idataconverter.IDataConversionException;
-import net.aokv.idataconverter.IDataConverter;
-import net.aokv.idataconverter.ObjectConversionException;
-import net.aokv.idataconverter.ObjectConverter;
-
 import com.wm.app.b2b.client.Context;
 import com.wm.app.b2b.client.ServiceException;
 import com.wm.app.b2b.util.GenUtil;
 import com.wm.data.IData;
+
+import net.aokv.idataconverter.IDataConversionException;
+import net.aokv.idataconverter.ObjectConversionException;
 
 /**
  * Base class for all service calls to Integration Server.
@@ -19,6 +15,7 @@ import com.wm.data.IData;
  * @param <TOutput> The output POJO for the service.
  */
 public abstract class Service<TInput extends ServiceInput, TOutput extends ServiceOutput>
+		extends AbstractService<TInput, TOutput>
 {
 	private String targetHost;
 	private String username;
@@ -27,8 +24,6 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	private final String serviceNamespace;
 	private final String serviceName;
 
-	private static final ObjectConverter OBJECT_CONVERTER = new ObjectConverter();
-	private static final IDataConverter IDATA_CONVERTER = new IDataConverter();
 	private static final Configuration CONFIGURATION = new Configuration();
 
 	/**
@@ -243,17 +238,5 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 				context.disconnect();
 			}
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private Class<TOutput> getOutputClass()
-	{
-		return (Class<TOutput>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-	}
-
-	@SuppressWarnings("unchecked")
-	private Class<TInput> getInputClass()
-	{
-		return (Class<TInput>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 }
