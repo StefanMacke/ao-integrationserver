@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class Configuration
@@ -37,12 +36,13 @@ public class Configuration
 				String.format("/%s.properties", PROPERTIES_FILENAME)))
 		{
 			props.load(stream);
-			final ResourceBundle rb = PropertyResourceBundle.getBundle(PROPERTIES_FILENAME);
+			final ResourceBundle rb = ResourceBundle.getBundle(PROPERTIES_FILENAME);
 			if (rb != null)
 			{
 				Collections.list(rb.getKeys())
-				.forEach(key -> props.setProperty(key, rb.getString(key)));
+						.forEach(key -> props.setProperty(key, rb.getString(key)));
 			}
+			props.putAll(System.getProperties());
 			return props;
 		}
 		catch (final IOException e)
@@ -58,6 +58,7 @@ public class Configuration
 	private Map<TargetServers, String> initializeHostProperties()
 	{
 		final Map<TargetServers, String> hosts = new HashMap<>();
+		hosts.put(TargetServers.Local, "integrationserver.host_local");
 		hosts.put(TargetServers.Development, "integrationserver.host_development");
 		hosts.put(TargetServers.Test, "integrationserver.host_test");
 		hosts.put(TargetServers.Production, "integrationserver.host_production");
@@ -67,7 +68,7 @@ public class Configuration
 	public TargetServers getTargetServer()
 	{
 		final String targetServerSetting =
-				(String) properties.getOrDefault(PROPERTY_TARGET_SERVER, "Development");
+				(String) properties.getOrDefault(PROPERTY_TARGET_SERVER, TargetServers.Local.toString());
 		return TargetServers.valueOf(targetServerSetting);
 	}
 
