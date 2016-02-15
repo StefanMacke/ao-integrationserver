@@ -5,35 +5,45 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
- * Provides methods to automatically generate service namespaces etc.
- * if services in Integration Server follow this structure:
+ * Provides methods to automatically generate service namespaces etc. if services in Integration
+ * Server follow this structure:
  *
- * <pre>Package (e.g. "Insurance", one word starting with an uppercase letter)
+ * <pre>
+ * Package (e.g. "Insurance", one word starting with an uppercase letter)
  *   Folder (must be equal to Package name and becomes part of the namespace)
  *     Subfolders (optional)
- *       Service</pre>
+ *       Service
+ * </pre>
  *
  * And if the corresponding Java classes follow this structure:
  *
- * <pre>base Java package (e.g. "net.aokv.integrationserver")
+ * <pre>
+ * base Java package (e.g. "net.aokv.integrationserver")
  *   package (must be equal to IS package/folder in lowercase)
  *     subpackages (optional, must be equal to IS subfolders in lowercase)
- *       Class (name must be equal to service name)</pre>
+ *       Class (name must be equal to service name)
+ * </pre>
  *
  * Example:
  *
  * IS:
- * <pre>Insurance (package)
+ * 
+ * <pre>
+ * Insurance (package)
  *   Insurance (folder)
  *     Health (subfolder)
  *       Services (subfolder)
- *         CalculatePremium (service)</pre>
+ *         CalculatePremium (service)
+ * </pre>
  *
  * Java:
- * <pre>net.aokv.integrationserver.insurance (base package, only one insurance!)
+ * 
+ * <pre>
+ * net.aokv.integrationserver.insurance (base package, only one insurance!)
  *     health (subpackage)
  *       services (subpackage)
- *         CalculatePremium (class)</pre>
+ *         CalculatePremium (class)
+ * </pre>
  */
 public final class ServiceNameHelper
 {

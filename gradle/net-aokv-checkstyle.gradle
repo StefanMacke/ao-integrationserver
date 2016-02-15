@@ -1,11 +1,16 @@
-/*
-    Performs quality checks on your project's Java source files using Checkstyle and generates reports from these checks.
- */
 apply plugin: 'checkstyle'
 
 logger.info('Checkstyle plugin activated')
 logger.info("pluginConfigPath: ${project.pluginConfigPath}")
 
-tasks.withType(Checkstyle) {
+checkstyle {
+	project.ext.checkstyleVersion = '6.15'
+	toolVersion = '6.15'
     ignoreFailures = true
+	configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+
+	dependencies{
+		assert project.hasProperty("checkstyleVersion")
+		checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
+	}
 }

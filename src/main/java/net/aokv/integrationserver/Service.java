@@ -27,9 +27,8 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	private static final Configuration CONFIGURATION = new Configuration();
 
 	/**
-	 * Main constructor.
-	 * Target server and user credentials are read from properties file
-	 * and may be overwritten later by calling the corresponding setters.
+	 * Main constructor. Target server and user credentials are read from properties file and may be
+	 * overwritten later by calling the corresponding setters.
 	 */
 	protected Service()
 	{
@@ -42,6 +41,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Calls the service with POJOs.
+	 *
 	 * @param input The input for the service call, i.e. an object derived from ServiceInput.
 	 * @return The output of the service call, i.e. an object derived from ServiceOutput.
 	 * @throws ObjectConversionException Thrown if input could not be converted to IData.
@@ -68,6 +68,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Calls the service with IData.
+	 *
 	 * @param input The input for the service call, i.e. an IData object.
 	 * @return The output of the service call, i.e. an IData object.
 	 * @throws ServiceException Thrown if something went wrong on Integration Server.
@@ -89,6 +90,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Converts IData to POJO (ServiceOutput).
+	 *
 	 * @param iData The IData to convert.
 	 * @return The POJO (ServiceOutput).
 	 * @throws IDataConversionException Thrown if IData could not be converted to POJO.
@@ -101,6 +103,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Converts IData to POJO (ServiceInput).
+	 *
 	 * @param iData The IData to convert.
 	 * @return The POJO (ServiceInput).
 	 * @throws IDataConversionException Thrown if IData could not be converted to POJO.
@@ -112,17 +115,17 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	}
 
 	/**
-	 * Returns the Java base package of the service, e.g. "net.aokv.integrationserver.wmpublic"
-	 * for a service in "Wmnet.aokv.integrationserver.wmpublic.pub.math".
-	 * This is used to automatically generate the service namespace.
+	 * Returns the Java base package of the service, e.g. "net.aokv.integrationserver.wmpublic" for
+	 * a service in "Wmnet.aokv.integrationserver.wmpublic.pub.math". This is used to automatically
+	 * generate the service namespace.
 	 *
 	 * @return The Java base package.
 	 */
 	public abstract String getJavaBasePackage();
 
 	/**
-	 * Returns the name of the IS package of the service, e.g. "WmPublic".
-	 * This is used to automatically generate the service namespace.
+	 * Returns the name of the IS package of the service, e.g. "WmPublic". This is used to
+	 * automatically generate the service namespace.
 	 *
 	 * @return The IS package.
 	 */
@@ -134,9 +137,9 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	}
 
 	/**
-	 * Returns the namespace of the service, e.g. "pub.math".
-	 * Override if service package does not end with namespace,
-	 * e.g. service package "com.example.services.pub" and namespace "services.pub2".
+	 * Returns the namespace of the service, e.g. "pub.math". Override if service package does not
+	 * end with namespace, e.g. service package "com.example.services.pub" and namespace
+	 * "services.pub2".
 	 *
 	 * @return The namespace.
 	 */
@@ -147,9 +150,8 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	}
 
 	/**
-	 * Returns the name of the service, e.g. "max".
-	 * Override if class name != service name,
-	 * e.g. class name "Max" and service name "max".
+	 * Returns the name of the service, e.g. "max". Override if class name != service name, e.g.
+	 * class name "Max" and service name "max".
 	 *
 	 * @return The name of the service.
 	 */
@@ -159,8 +161,9 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	}
 
 	/**
-	 * Overwrite to enable/disable debug mode, which prints information about
-	 * the input/output POJOs and IData to the console.
+	 * Overwrite to enable/disable debug mode, which prints information about the input/output POJOs
+	 * and IData to the console.
+	 *
 	 * @return Whether debug mode is enabled or not.
 	 */
 	protected boolean isDebugModeEnabled()
@@ -170,6 +173,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Sets the new target server.
+	 *
 	 * @param targetServer The new target server.
 	 */
 	public void setTargetServer(final TargetServers targetServer)
@@ -179,6 +183,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Sets the new target host.
+	 *
 	 * @param targetHost The new target host.
 	 */
 	public void setTargetHost(final String targetHost)
@@ -188,7 +193,8 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Sets the new username.
-	 * @param targetHost The new username.
+	 *
+	 * @param username The new username.
 	 */
 	public void setUsername(final String username)
 	{
@@ -197,7 +203,8 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Sets the new password.
-	 * @param targetHost The new password.
+	 *
+	 * @param password The new password.
 	 */
 	public void setPassword(final String password)
 	{
@@ -206,6 +213,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	/**
 	 * Returns the target host of the service.
+	 *
 	 * @return The target host.
 	 */
 	public String getTargetHost()
