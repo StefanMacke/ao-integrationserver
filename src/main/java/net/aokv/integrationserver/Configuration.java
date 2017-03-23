@@ -1,16 +1,24 @@
 package net.aokv.integrationserver;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Configuration
 {
 	private static final String PROPERTIES_FILENAME = "IntegrationServer";
+	private static final String PROPERTIES_FILENAME_WITH_EXT = String.format("%s.properties", PROPERTIES_FILENAME);
+	private static final File PROPERTIES_FILE = new File("./" + PROPERTIES_FILENAME_WITH_EXT);
 
 	private static final String PROPERTY_ADMIN_USERNAME = "integrationserver.admin_username";
 	private static final String PROPERTY_ADMIN_PASSWORD = "integrationserver.admin_password";
@@ -32,27 +40,47 @@ public class Configuration
 	private Properties readProperties()
 	{
 		final Properties props = new Properties();
-		try (final InputStream stream = Service.class.getResourceAsStream(
-				String.format("/%s.properties", PROPERTIES_FILENAME)))
+		try (final InputStream stream = Service.class.getResourceAsStream("/" + PROPERTIES_FILENAME_WITH_EXT))
 		{
 			props.load(stream);
-			final ResourceBundle rb = ResourceBundle.getBundle(PROPERTIES_FILENAME);
-			if (rb != null)
-			{
-				Collections.list(rb.getKeys())
-						.forEach(key -> props.setProperty(key, rb.getString(key)));
-			}
-			props.putAll(System.getProperties());
+			addPropertiesFromSystem(props);
+			createLocalPropertiesFileIfNotExists();
+			addPropertiesFromLocalPropertiesFile(props);
 			return props;
 		}
 		catch (final IOException e)
 		{
 			throw new RuntimeException(
 					String.format("Error while reading properties file <%s>: %s",
-							PROPERTIES_FILENAME,
+							PROPERTIES_FILENAME_WITH_EXT,
 							e.getMessage()),
 					e);
 		}
+	}
+
+	private void createLocalPropertiesFileIfNotExists() throws IOException
+	{
+		final List<String> lines = allDefaultProperties().collect(Collectors.toList());
+
+		if (!PROPERTIES_FILE.exists())
+		{
+			Files.write(PROPERTIES_FILE.toPath(), lines, StandardOpenOption.CREATE_NEW);
+		}
+	}
+
+	private void addPropertiesFromLocalPropertiesFile(final Properties props) throws IOException
+	{
+		System.out.println("Reading properties from local file: " + PROPERTIES_FILE.getAbsolutePath());
+		final Properties localProps = new Properties();
+		final InputStream stream = new FileInputStream(PROPERTIES_FILE);
+		localProps.load(stream);
+		localProps.keySet()
+				.forEach(key -> props.setProperty(key.toString(), localProps.get(key).toString()));
+	}
+
+	private void addPropertiesFromSystem(final Properties props)
+	{
+		props.putAll(System.getProperties());
 	}
 
 	private Map<TargetServers, String> initializeHostProperties()
@@ -63,6 +91,17 @@ public class Configuration
 		hosts.put(TargetServers.Test, "integrationserver.host_test");
 		hosts.put(TargetServers.Production, "integrationserver.host_production");
 		return hosts;
+	}
+
+	private Stream<String> allDefaultProperties()
+	{
+		return Stream.concat(
+				Arrays.asList(
+						String.format("%s=%s", PROPERTY_ADMIN_USERNAME, DEFAULT_ADMIN_USERNAME),
+						String.format("%s=%s", PROPERTY_ADMIN_PASSWORD, DEFAULT_ADMIN_PASSWORD),
+						String.format("%s=%s", PROPERTY_TARGET_SERVER, "Local")).stream(),
+				initializeHostProperties().values().stream()
+						.map(v -> String.format("%s=%s", v, DEFAULT_HOST)));
 	}
 
 	public TargetServers getTargetServer()
