@@ -23,6 +23,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 
 	private final String serviceNamespace;
 	private final String serviceName;
+	private boolean debugModeEnabled;
 
 	private static final Configuration CONFIGURATION = new Configuration();
 
@@ -37,6 +38,7 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 		this.targetHost = CONFIGURATION.getTargetHost();
 		this.serviceNamespace = getNamespace();
 		this.serviceName = getName();
+		this.debugModeEnabled = false;
 	}
 
 	/**
@@ -161,17 +163,6 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	}
 
 	/**
-	 * Overwrite to enable/disable debug mode, which prints information about the input/output POJOs
-	 * and IData to the console.
-	 *
-	 * @return Whether debug mode is enabled or not.
-	 */
-	protected boolean isDebugModeEnabled()
-	{
-		return false;
-	}
-
-	/**
 	 * Sets the new target server.
 	 *
 	 * @param targetServer The new target server.
@@ -219,6 +210,27 @@ public abstract class Service<TInput extends ServiceInput, TOutput extends Servi
 	public String getTargetHost()
 	{
 		return targetHost;
+	}
+
+	/**
+	 * Enables debug output before and after each service call.
+	 */
+	public final void enableDebugMode()
+	{
+		debugModeEnabled = true;
+	}
+
+	/**
+	 * Disables debug output before and after each service call.
+	 */
+	public final void disableDebugMode()
+	{
+		debugModeEnabled = false;
+	}
+
+	private final boolean isDebugModeEnabled()
+	{
+		return debugModeEnabled;
 	}
 
 	private Context connectToServer() throws ServiceException

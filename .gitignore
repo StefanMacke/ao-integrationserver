@@ -118,3 +118,5 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+IntegrationServer.properties

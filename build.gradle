@@ -38,9 +38,15 @@ logger.debug('buildscript settings activated')
 repositories.each { logger.info("Repository $it.name") }
 
 dependencies {
-	compile "net.aokv.idataconverter:ao-idata-converter:3.0.0",
+	compile "net.aokv.idataconverter:ao-idata-converter:7.0.0",
 		"com.sun.mail:javax.mail:1.5.0",
-		'com.wm:is-client:9.5', // must be added to local repository
-		'com.wm:is-server:9.5', // must be added to local repository
-		'com.entrust.toolkit:enttoolkit:8.0.23' // must be added to local repository
+		'com.wm:is-client:9.12', // must be added to local repository
+		'com.wm:is-server:9.12', // must be added to local repository
+		'com.entrust.toolkit:enttoolkit:8.0.33' // must be added to local repository
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'xml-apis:xml-apis:1.4.01'
+    }
 }

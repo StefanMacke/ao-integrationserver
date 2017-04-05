@@ -1,13 +1,9 @@
-/*
-    JaCoCo Einstellungen
-
-    BUILDSCRIPT-CLASSPATH-DEPENDENCY:  'com.github.abirmingham:gradle-jacoco-plugin:1.+'
- */
 apply plugin: 'jacoco'
 
-logger.info('JaCoCo 1.+ Plugin aktiviert')
+logger.info('JaCoCo-Plugin aktiviert')
 
 jacoco {
+    toolVersion = project.jacocoVersion
     reportsDir = file("${project.reporting.baseDir.absolutePath}/jacoco")
 }
 
