@@ -1,23 +1,18 @@
 description = "Java interface for webMethods Integration Server services"
 
-logger.info("Gradle project ${project.name}")
-logger.info("Encoding for project <${project.group}.${project.name}> is ${project.encoding}")
-logger.info("Artifacts repository: $project.artifactsURL$project.artifactsRepoKey")
-logger.info(description)
-
-logger.debug("Build with project.gradleApplyFromPath: ${project.gradleApplyFromPath}")
-logger.debug("Configuration project.pluginConfigPath: ${project.pluginConfigPath}")
-
 configurations.create('${project.name}')
 
 buildscript {
-    repositories {
-        maven { url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL() }
-        ivy { url = "${project.artifactsURL}${project.artifactsRepoKey}".toURL() }
+    apply from: "gradle/repos.gradle"
+    repositories repos
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:${buildinfoVersion}",
+            "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
+            "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarqubeVersion}"
     }
-    apply from: "${project.gradleApplyFromPath}/net-aokv-classpath.gradle", to: buildscript
 }
-logger.debug('buildscript settings activated')
+
+repositories repos
 
 [
 	 "maven",
@@ -32,10 +27,8 @@ logger.debug('buildscript settings activated')
 	 "jacoco",
 	 "sonarqube"
 ].each {
-	apply from: "${project.gradleApplyFromPath}/net-aokv-${it}.gradle"
+	apply from: "gradle/${it}.gradle"
 }
-
-repositories.each { logger.info("Repository $it.name") }
 
 dependencies {
 	compile "net.aokv.idataconverter:ao-idata-converter:7.0.0",
@@ -48,5 +41,12 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force 'xml-apis:xml-apis:1.4.01'
+    }
+}
+
+test {
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
     }
 }

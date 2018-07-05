@@ -1,0 +1,11 @@
+apply plugin: 'pmd'
+
+tasks.withType(Pmd) {
+    ignoreFailures = true
+    ruleSetFiles = files("${project.pluginConfigPath}/pmd/rulesets.xml")
+
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}

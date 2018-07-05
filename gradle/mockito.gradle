@@ -1,5 +1,3 @@
-logger.info("Mockito ${project.mockitoVersion} plugin activated")
-
 dependencies {
     testCompile "org.mockito:mockito-core:${project.mockitoVersion}"
 }

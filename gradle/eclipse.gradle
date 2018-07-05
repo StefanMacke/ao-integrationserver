@@ -1,9 +1,4 @@
-/*
-    Generates files that are used by Eclipse IDE, thus making it possible to import the project into Eclipse.
- */
 apply plugin: 'eclipse'
-
-logger.info('Eclipse plugin activated')
 
 eclipseProject {
 

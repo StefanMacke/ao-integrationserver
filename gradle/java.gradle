@@ -3,9 +3,5 @@ apply plugin: 'java'
 sourceCompatibility = project.javaVersion
 targetCompatibility = project.javaVersion
 
-logger.info("Java plugin activated - version ${sourceCompatibility}")
-
 compileJava.options.encoding = project.encoding
 compileTestJava.options.encoding = project.encoding
-
-logger.debug("Compile with encoding ${project.encoding}")

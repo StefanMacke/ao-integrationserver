@@ -1,7 +1,5 @@
 apply plugin: 'maven'
 
-logger.info('Maven plugin activated')
-
 repositories {
     maven {
         name = "Maven Repository"
