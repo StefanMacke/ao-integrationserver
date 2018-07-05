@@ -43,9 +43,9 @@ public class Configuration
 		try (final InputStream stream = Service.class.getResourceAsStream("/" + PROPERTIES_FILENAME_WITH_EXT))
 		{
 			props.load(stream);
-			addPropertiesFromSystem(props);
 			createLocalPropertiesFileIfNotExists();
 			addPropertiesFromLocalPropertiesFile(props);
+			addPropertiesFromSystem(props);
 			return props;
 		}
 		catch (final IOException e)
@@ -70,7 +70,6 @@ public class Configuration
 
 	private void addPropertiesFromLocalPropertiesFile(final Properties props) throws IOException
 	{
-		System.out.println("Reading properties from local file: " + PROPERTIES_FILE.getAbsolutePath());
 		final Properties localProps = new Properties();
 		final InputStream stream = new FileInputStream(PROPERTIES_FILE);
 		localProps.load(stream);
